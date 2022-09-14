@@ -1,6 +1,6 @@
 # Calculator
 
-Simple Calculator.We use it in our daily life.
+Simple Calculator created By Dip Mandal
 
 # Visit my created website using this link :-
 https://dipmandal353.github.io/Calculator/
@@ -14,8 +14,8 @@ It's an Simple Calculator created with the help of
 
 ## Help
 
-just clone this repository using
-$git clone 
+Just clone this repository using
+$git clone git@github.com:dipmandal353/Calculator.git
 
 ## Authors
 https://github.com/dipmandal353/Calculator
