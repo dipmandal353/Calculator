@@ -6,7 +6,7 @@ Simple Calculator created By Dip Mandal
 https://dipmandal353.github.io/Calculator/
 
 #Screenshot
-<img src="calculator.png" style="max-width: 100px; width: 100%; height: auto;">
+<img src="" style="max-width: 100px; width: 100%; height: auto;">
 
 ## Description
 
