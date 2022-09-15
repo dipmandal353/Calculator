@@ -5,7 +5,7 @@ Simple Calculator created By Dip Mandal
 # Use Calculator using this link :-
 https://dipmandal353.github.io/Calculator/
 
-#Screenshot
+# Screenshot
 <img src="calculator1.png" style="max-width: 100px; width: 100%; height: auto;">
 
 ## Description
