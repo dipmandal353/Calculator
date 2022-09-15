@@ -2,7 +2,7 @@
 
 Simple Calculator created By Dip Mandal
 
-# Visit my created website using this link :-
+# Use Calculator using this link :-
 https://dipmandal353.github.io/Calculator/
 
 ## Description
