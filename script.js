@@ -1,149 +1,80 @@
-const number = document.querySelectorAll('.number')
-const operation = document.querySelectorAll('.operation')
-const resultLast = document.querySelector('.result')
-const clear = document.querySelector('.clear')
-const del = document.querySelector('.delete')
-const overoutput = document.querySelector('.overoutput')
-const underoutput = document.querySelector('.underoutput')
-const tempoutput = document.querySelector('.tempoutput')
+(function () {
+  const buttons = document.querySelector('.calculator__buttons');
+  const mainDisplayBox = document.querySelector('.calculator__display--text');
+  let values = [];
+  let input = '';
 
-var output1 = ''
-var output2 = ''
-var result = null
-var operationLast = ''
-var oneDot = false
-
-number.forEach( number => {
-  number.addEventListener('click', (e) => {
-    if ( e.target.innerText === '.' && !oneDot) {
-      oneDot = true
-    } else if ( e.target.innerText === '.' && oneDot) {
-      return
-    }
-    output2 += e.target.innerText
-    underoutput.innerText = output2
-  })
-})
-
-operation.forEach( (operation) => {
-  operation.addEventListener('click', (e) => {
-    if (!output2) return
-    oneDot = false
-    const operationName = e.target.innerText
-    if (output1 && output2 && operationLast) {
-      mathOperation()
-    } else {
-      result = parseFloat(output2)
-    }
-    clearVar(operationName)
-    operationLast = operationName;
-  })
-})
-
-function clearVar(name = '') {
-  output1 += output2 + ' ' + name + ' '
-  overoutput.innerText = output1
-  underoutput.innerText = ''
-  output2 = ''
-  tempoutput.innerText = result
-}
-
-function mathOperation() {
-  if (operationLast === "x") {
-    result = parseFloat(result) * parseFloat(output2);
-  } else if (operationLast === "+") {
-    result = parseFloat(result) + parseFloat(output2);
-  } else if (operationLast === "-") {
-    result = parseFloat(result) - parseFloat(output2);
-  } else if (operationLast === "/") {
-    result = parseFloat(result) / parseFloat(output2);
-  } else if (operationLast === "%") {
-    result = parseFloat(result) % parseFloat(output2);
+  function backspace() {
+    if (input) input = input.slice(0, -1).trim();
   }
-}
 
-resultLast.addEventListener('click', (e) => {
-  if ( !output1 || !output2 ) return
-  oneDot = false
-  mathOperation()
-  clearVar()
-  underoutput.innerText = result
-  tempoutput.innerText = ''
-  output2 = result
-  output1 = ''
-})
-
-clear.addEventListener('click', (e) => {
-  underoutput.innerText = ''
-  overoutput.innerText = ''
-  tempoutput.innerText = ''
-  output1 = ''
-  output2 = ''
-  result = ''
-})
-
-del.addEventListener('click', (e) => {
-  underoutput.innerText = underoutput.innerText.toString().slice(0, -1)
-  output2 = output2.toString().slice(0, -1)
-})
-
-window.addEventListener('keydown', (e) => {
-  if (
-    e.key === '0' ||
-    e.key === '1' ||
-    e.key === '2' ||
-    e.key === '3' ||
-    e.key === '4' ||
-    e.key === '5' ||
-    e.key === '6' ||
-    e.key === '7' ||
-    e.key === '8' ||
-    e.key === '9' ||
-    e.key === '.' 
-  ) {
-    clicknumber(e.key)
-  } else if (
-    e.key === '+' ||
-    e.key === '-' ||
-    e.key === '/' ||
-    e.key === '%' 
-   ) {
-     clickoperation(e.key)
-   } else if (e.key === '*') {
-     clickoperation('x')
-   } else if (e.key === 'Enter' || e.key === '=') {
-     clickresult()
-   } else if (e.key === 'Backspace') {
-     clickdel()
-   } else if (e.key === 'Delete') {
-     clickclear()
-   }
-})
-
-function clicknumber(key) {
-  number.forEach((button) => {
-    if (button.innerText === key) {
-      button.click()
+  function togglePlusMinus() {
+    input = input.toString();
+    if (input.slice(0, 1) === '-') {
+      input = input.slice(1);
+    } else {
+      input = '-' + input;
     }
-  })
-}
+  }
 
-function clickoperation(key) {
-  operation.forEach((button) => {
-    if (button.innerText === key) {
-      button.click()
+  function isOperator(str) {
+    return ['-', '+', '*', '/'].includes(str);
+  }
+
+  function percentage() {
+    // TODO:
+  }
+
+  function addToInput(action) {
+    if (input.length === 0 && isOperator(action)) return;
+
+    if (
+      isOperator(input.substr(input.length > 0 ? input.length - 1 : 1)) &&
+      isOperator(action)
+    )
+      return;
+
+    input += action;
+  }
+
+  function calculate() {
+    if (!input.length) return;
+
+    if (isOperator(input.substr(input.length - 1)))
+      input = input.slice(0, input.length - 1);
+
+    input = eval(input).toString();
+  }
+
+  function clear() {
+    input = '';
+  }
+
+  buttons.addEventListener('click', e => {
+    const action = e.target.dataset.action;
+
+    if (!action) return;
+    switch (action) {
+      case 'backspace':
+        backspace();
+        break;
+      case 'toggle-plus-minus':
+        togglePlusMinus();
+        break;
+      case '%':
+        percentage();
+        break;
+      case 'clear':
+        clear();
+        break;
+      case 'calculate':
+        calculate();
+        break;
+      default:
+        addToInput(action);
+        break;
     }
-  })
-}
 
-function clickresult() {
-  resultLast.click()
-}
-
-function clickdel() {
-  del.click()
-}
-
-function clickclear() {
-  clear.click()
-}
+    mainDisplayBox.innerHTML = input;
+  });
+})();
